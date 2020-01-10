@@ -6,28 +6,28 @@ Matlab function in CPP
 ---FINISHED FUNCTION---
 =======================
 
-double * linspace();
+double * linspace(double start_val, double stop_val, int n);
 
-double * logspace();
+double * logspace(double start_val, double stop_val, int n);
 
-bool     isempty();
+bool     isempty(double * nums);
 
-bool     isscalar();
+bool     isscalar(double * nums);
+
+int *    size(double * A);
+
+int      length(double * A);
+
+int      numel(double * A);
 
 ---FINISHED CLASS---
 ====================
 
 class SparseMatrix;
 
----TO DO OR WIP(OR GUGUGU FOREVER)---
+---TO DO OR WIP(PERHAPS GUGUGU FOREVER)---
 =====================================
 
-bool     isvector();
+bool     isvector(double * A);
 
-bool     issparase();
-
-int *    size();
-
-int      length();
-
-int      ndims();
+int      ndims(double * A);
