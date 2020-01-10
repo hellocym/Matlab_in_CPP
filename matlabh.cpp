@@ -1,41 +1,37 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//´´½¨Ò»Î¬µÈ²îÊı×é 
+//åˆ›å»ºä¸€ç»´ç­‰å·®æ•°ç»„ 
 double * linspace(double start_val, double stop_val, int n){
 	static double *ans = new double[n];
-	
 	for(int i = 0; i <= n - 1; i++){
 		ans[i] = start_val + (stop_val - start_val) / (n - 1) * i;
 	}
-	
 	return ans;
 }
 
-//´´½¨Ò»Î¬µÈ±ÈÊı×é 
+//åˆ›å»ºä¸€ç»´ç­‰æ¯”æ•°ç»„ 
 double * logspace(double start_val, double stop_val, int n){
 	static double *ans = new double[n];
-	
 	ans = linspace(start_val, stop_val, n);
-	
 	for(int i = 0; i <= n - 1; i++){
 		//ans[i] = pow(10, start_val + (stop_val - start_val) / (n - 1) * i);
 		ans[i] = pow(10, ans[i]);
 	}
-	
 	return ans;
 }
 
-//Êı×é²âÊÔº¯Êı
+//æ£€æµ‹æ•°ç»„æ˜¯å¦æ˜¯ç©ºæ•°ç»„
 #define isempty(nums) ((sizeof(nums) / sizeof(nums[0])) == 0)
+//æ£€æµ‹æ•°ç»„æ˜¯å¦æ˜¯æ ‡é‡æ•°ç»„ 
 #define isscalar(nums) ((sizeof(nums) / sizeof(nums[0])) == 1)
-//TO DO:²âÊÔÊı×éÊÇ·ñÎªÏòÁ¿
+/* TODO (CYMIC#1#): æ£€æµ‹æ•°ç»„æ˜¯å¦æ˜¯å‘é‡æ•°ç»„ */
 
-//×Ô¶¨ÒåÊı¾İ½á¹¹£º¾ØÕóÔªËØµÄĞĞ£¬ÁĞ£¬Öµ£»
+//è‡ªå®šä¹‰æ•°æ®ç»“æ„ï¼šçŸ©é˜µå…ƒç´ çš„è¡Œï¼Œåˆ—ï¼Œå€¼ï¼›
 struct Trituple{
 	int row,col;
 	int value;
-	//¸³ÖµÔËËã·ûÖØÔØ
+	//èµ‹å€¼è¿ç®—ç¬¦é‡è½½
 	Trituple& operator=(Trituple& x){
 		row=x.row;
 		col=x.col;
@@ -45,127 +41,115 @@ struct Trituple{
 };
 
 const int DefaultSize=100;
-//Ï¡Êè¾ØÕó
+//ç¨€ç–çŸ©é˜µ
 class SparseMatrix{    
 private:
-	int Rows,Cols,Terms;   //ĞĞÊı£¬ÁĞÊı£¬·ÇÁãÔªËØµÄ¸öÊı
-	Trituple *smArray;   //´æ·ÇÁãÔªËØµÄÈıÔªÊı×é
-	int maxTerms;    //ÈıÔª×é×î´ó¿ÉÈİÄÉµÄÔªËØ¸öÊı
+	int Rows,Cols,Terms;   //è¡Œæ•°ï¼Œåˆ—æ•°ï¼Œéé›¶å…ƒç´ çš„ä¸ªæ•°
+	Trituple *smArray;   //å­˜éé›¶å…ƒç´ çš„ä¸‰å…ƒæ•°ç»„
+	int maxTerms;    //ä¸‰å…ƒç»„æœ€å¤§å¯å®¹çº³çš„å…ƒç´ ä¸ªæ•°
 public:
-	SparseMatrix(int maxSz=DefaultSize);  //¹¹Ôìº¯Êı
-	SparseMatrix(SparseMatrix& SM);      //¸³Öµ¹¹Ôìº¯Êı
-	~SparseMatrix(); //Îö¹¹º¯Êı
-	SparseMatrix& operator=(SparseMatrix& SM); //¸³ÖµÔËËã·ûÖØÔØ
-	SparseMatrix Transpose();     //¾ØÕó×ªÖÃ
-	SparseMatrix Add(SparseMatrix& b);      //¾ØÕóµÄ¼Ó·¨
-	SparseMatrix Multiply(SparseMatrix& b);      //¾ØÕóµÄ³Ë·¨
-	friend ostream& operator<<(ostream& ostr,SparseMatrix& SM); //¾ØÕóµÄÊä³öÖØÔØº¯Êı
-	friend istream& operator>>(istream& istr,SparseMatrix& SM); //¾ØÕóµÄÊäÈëÖØÔØº¯Êı
+	SparseMatrix(int maxSz=DefaultSize);  //æ„é€ å‡½æ•°
+	SparseMatrix(SparseMatrix& SM);      //èµ‹å€¼æ„é€ å‡½æ•°
+	~SparseMatrix(); //ææ„å‡½æ•°
+	SparseMatrix& operator=(SparseMatrix& SM); //èµ‹å€¼è¿ç®—ç¬¦é‡è½½
+	SparseMatrix Transpose();     //çŸ©é˜µè½¬ç½®
+	SparseMatrix Add(SparseMatrix& b);      //çŸ©é˜µçš„åŠ æ³•
+	SparseMatrix Multiply(SparseMatrix& b);      //çŸ©é˜µçš„ä¹˜æ³•
+	friend ostream& operator<<(ostream& ostr,SparseMatrix& SM); //çŸ©é˜µçš„è¾“å‡ºé‡è½½å‡½æ•°
+	friend istream& operator>>(istream& istr,SparseMatrix& SM); //çŸ©é˜µçš„è¾“å…¥é‡è½½å‡½æ•°
 };
-SparseMatrix::SparseMatrix(int maxSz):maxTerms(maxSz){     //¹¹Ôìº¯Êı£º¹¹ÔìÒ»¸ö´óĞ¡ÎªmaxTermµÄÈıÔª×é£¬ĞĞÁĞÊıºÍ·ÇÁãÔªËØ¸öÊı¶¼ÖÃÁã
+SparseMatrix::SparseMatrix(int maxSz):maxTerms(maxSz){     //æ„é€ å‡½æ•°ï¼šæ„é€ ä¸€ä¸ªå¤§å°ä¸ºmaxTermçš„ä¸‰å…ƒç»„ï¼Œè¡Œåˆ—æ•°å’Œéé›¶å…ƒç´ ä¸ªæ•°éƒ½ç½®é›¶
 	if(maxSz<1){
-		cerr<<"Matrix initialization error!"<<endl;//¾ØÕó³õÊ¼»¯´íÎó
+		cerr<<"Matrix initialization error!"<<endl;//çŸ©é˜µåˆå§‹åŒ–é”™è¯¯
 		exit(1);
 	}
 	smArray=new Trituple[maxSz];
 	assert(smArray!=NULL);
 	Rows=Cols=Terms=0;
 }
-SparseMatrix::SparseMatrix(SparseMatrix& SM){  //¸´ÖÆ¹¹Ôìº¯Êı
-	Rows=SM.Rows;      //¸³Öµ¾ØÕóµÄĞÔÖÊ
+//å¤åˆ¶æ„é€ å‡½æ•°
+SparseMatrix::SparseMatrix(SparseMatrix& SM){  
+	Rows=SM.Rows;      //èµ‹å€¼çŸ©é˜µçš„æ€§è´¨
 	Cols=SM.Cols;
 	Terms=SM.Terms;
 	maxTerms=SM.maxTerms;
-	smArray=new Trituple[maxTerms];  //¹¹ÔìÈıÔª×é²¢¸³ÓëSMÏàÍ¬µÄÖµ
+	smArray=new Trituple[maxTerms];  //æ„é€ ä¸‰å…ƒç»„å¹¶èµ‹ä¸SMç›¸åŒçš„å€¼
 	assert(smArray!=NULL);
 	for(int i=0;i<Terms;i++)
 		smArray[i]=SM.smArray[i];
 }
-SparseMatrix::~SparseMatrix(){   //Îö¹¹º¯Êı£ºÊÍ·ÅËùÓĞ´æ´¢
+//ææ„å‡½æ•°ï¼šé‡Šæ”¾æ‰€æœ‰å­˜å‚¨
+SparseMatrix::~SparseMatrix(){
 	delete[]smArray;
 }
-SparseMatrix& SparseMatrix::operator=(SparseMatrix& SM){ //¸³ÖµÔËËã·ûÖØÔØ
-	Rows=SM.Rows;      //ÔªËØĞÔÖÊµÄ¸³Öµ
+//èµ‹å€¼è¿ç®—ç¬¦é‡è½½ 
+SparseMatrix& SparseMatrix::operator=(SparseMatrix& SM){ 
+	Rows=SM.Rows;      //å…ƒç´ æ€§è´¨çš„èµ‹å€¼
 	Cols=SM.Cols;
 	Terms=SM.Terms;
 	maxTerms=SM.maxTerms;
-	for(int i=0;i<Terms;i++)      //ÈıÔª×éËùÓĞÔªËØ¸³Öµ
+	for(int i=0;i<Terms;i++)      //ä¸‰å…ƒç»„æ‰€æœ‰å…ƒç´ èµ‹å€¼
 		smArray[i]=SM.smArray[i];
-	return *this;    //·µ»ØµÄÊÇ¶Ôµ÷ÓÃ¸Ãº¯ÊıµÄ¶ÔÏóµÄÒıÓÃ£¬ĞèÏÔÊ½Ê¹ÓÃthisÖ¸Õë£»
+	return *this;    //è¿”å›çš„æ˜¯å¯¹è°ƒç”¨è¯¥å‡½æ•°çš„å¯¹è±¡çš„å¼•ç”¨ï¼Œéœ€æ˜¾å¼ä½¿ç”¨thisæŒ‡é’ˆï¼›
 }
-ostream& operator<<(ostream& ostr,SparseMatrix& SM){  //Êä³öÔËËã·ûÖØÔØ £¨ÎªÉ¶´úÄ£°å¾Í²»ÄÜµ÷ÓÃrow£¿ £©
-	ostr<<"# Rows="<<SM.Rows<<endl;    //Êä³ö¸Ã¾ØÕóµÄĞÔÖÊ
+//è¾“å‡ºè¿ç®—ç¬¦é‡è½½
+ostream& operator<<(ostream& ostr,SparseMatrix& SM){  
+	ostr<<"# Rows="<<SM.Rows<<endl;    //è¾“å‡ºè¯¥çŸ©é˜µçš„æ€§è´¨
 	ostr<<"# Cols="<<SM.Cols<<endl;
 	ostr<<"# Terms="<<SM.Terms<<endl;
-	for(int i=0;i<SM.Terms;i++)   //Êä³ö¸Ã¾ØÕó·ÇÁãÔªËØµÄÎ»ÖÃ¼°Öµ
+	for(int i=0;i<SM.Terms;i++)   //è¾“å‡ºè¯¥çŸ©é˜µéé›¶å…ƒç´ çš„ä½ç½®åŠå€¼
 		ostr<<i+1<<": "<<"SM<"<<SM.smArray[i].row<<","<<SM.smArray[i].col<<">="<<
 		SM.smArray[i].value<<endl;
 	return ostr;
 }
-istream& operator>> (istream& istr,SparseMatrix& SM){  //ÊäÈëÔËËã·ûÖØÔØ
+//è¾“å…¥è¿ç®—ç¬¦é‡è½½
+istream& operator>> (istream& istr,SparseMatrix& SM){  
 	cout<<"Please enter number of rows,columns,and terms of Matrix"<<endl;
-	istr>>SM.Rows>>SM.Cols>>SM.Terms;  //ÊäÈëÔªËØµÄĞÔÖÊ
+	istr>>SM.Rows>>SM.Cols>>SM.Terms;  //è¾“å…¥å…ƒç´ çš„æ€§è´¨
 	if(SM.Terms>SM.maxTerms){
 		cerr<<"Numbers of Terms overflow!"<<endl;
 		exit(1);
 	}
-	for(int i=0;i<SM.Terms;i++){   //ÒÀ´ÎÊäÈë·ÇÁãÔªËØµÄ×ø±êºÍÖµ
+	for(int i=0;i<SM.Terms;i++){   //ä¾æ¬¡è¾“å…¥éé›¶å…ƒç´ çš„åæ ‡å’Œå€¼
 		cout<<"Enter row,column,and value of term:"<<i+1<<endl;
 		cin>>SM.smArray[i].row>>SM.smArray[i].col>>SM.smArray[i].value;
 	}
 	return istr;
 }
-/*SparseMatrix SparseMatrix::Transpose(){ //×ªÖÃº¯Êı
-	SparseMatrix b(maxTerms);
-	b.Rows=Rows;
-	b.Cols=Cols;
-	b.Terms=Terms;
-	b.maxTerms=maxTerms;
-	if(Terms>0){
-		int i,k,CurrentB=0;
-		for(k=0;k<b.Cols;k++)     
-			for(i=0;i<Terms;i++)
-				if(smArray[i].col==k){
-					b.smArray[CurrentB].row=smArray[i].col;
-					b.smArray[CurrentB].col=smArray[i].row;
-					b.smArray[CurrentB].value=smArray[i].value;
-					CurrentB++;
-				}
-	}
-	return b;
-}*/
-SparseMatrix SparseMatrix::Transpose(){   //×ªÖÃº¯Êı
-	int *rowSize=new int[Cols]; //×ªÖÃ¾ØÕóÃ¿ĞĞ·ÇÁãÔªËØµÄ¸öÊı
-	int *rowStart=new int[Cols]; //×ªÖÃ¾ØÕóÃ¿ĞĞµÚÒ»¸ö·ÇÁãÔªËØ¶ÔÓ¦ÆäÈıÔª×éµÄÏÂ±ê
-	SparseMatrix b(maxTerms); //×ªÖÃºóµÄ¾ØÕó¶ÔÓ¦µÄÈıÔª×é
-	b.Rows=Rows;       //bµÄĞÔÖÊ
+//è½¬ç½®å‡½æ•°
+SparseMatrix SparseMatrix::Transpose(){   
+	int *rowSize=new int[Cols]; //è½¬ç½®çŸ©é˜µæ¯è¡Œéé›¶å…ƒç´ çš„ä¸ªæ•°
+	int *rowStart=new int[Cols]; //è½¬ç½®çŸ©é˜µæ¯è¡Œç¬¬ä¸€ä¸ªéé›¶å…ƒç´ å¯¹åº”å…¶ä¸‰å…ƒç»„çš„ä¸‹æ ‡
+	SparseMatrix b(maxTerms); //è½¬ç½®åçš„çŸ©é˜µå¯¹åº”çš„ä¸‰å…ƒç»„
+	b.Rows=Rows;       //bçš„æ€§è´¨
 	b.Cols=Cols;
 	b.Terms=Terms;
 	b.maxTerms=maxTerms;
 	if(Terms>0){  
 		int i,j,CurrentB=0;
-		for(i=0;i<Cols;i++)     //¶ÔrowSizeÊı×é¸³Öµ
+		for(i=0;i<Cols;i++)     //å¯¹rowSizeæ•°ç»„èµ‹å€¼
 			rowSize[i]=0;
 		for(i=0;i<Terms;i++)
 			rowSize[smArray[i].col]++;
-		rowStart[0]=0;        //¶ÔrowStartÊı×é¸³Öµ
+		rowStart[0]=0;        //å¯¹rowStartæ•°ç»„èµ‹å€¼
 		for(i=1;i<b.Rows;i++)
 			rowStart[i]=rowStart[i-1]+rowSize[i-1];
-		for(i=0;i<Terms;i++){ //±éÀúÈıÔª×éa£¬°Ñ¸÷¸öÔªËØ°´rowStartÊı×é´æÔÚbÖĞÏàÓ¦µÄÎ»ÖÃ
-			j=rowStart[smArray[i].col]; //aÊı×éÖĞĞĞºÅ°´´ÓĞ¡µ½´óµÄË³ĞòÅÅÁĞ£¬ËùÒÔÏàÍ¬ÁĞ×îÏÈÓöµ½µÄÔªËØ¿Ï¶¨´¦ÔÚÏàÓ¦×ªÖÃ¾ØÕóÏàÓ¦ĞĞÖĞµÄ×îÇ°Ãæ
-			b.smArray[j].row=smArray[i].col; //°Ñ¸ÃÔªËØ°´ÕÕÕÒµ½µÄÏÂ±êj´æÈëbÖĞ
+		for(i=0;i<Terms;i++){ //éå†ä¸‰å…ƒç»„aï¼ŒæŠŠå„ä¸ªå…ƒç´ æŒ‰rowStartæ•°ç»„å­˜åœ¨bä¸­ç›¸åº”çš„ä½ç½®
+			j=rowStart[smArray[i].col]; //aæ•°ç»„ä¸­è¡Œå·æŒ‰ä»å°åˆ°å¤§çš„é¡ºåºæ’åˆ—ï¼Œæ‰€ä»¥ç›¸åŒåˆ—æœ€å…ˆé‡åˆ°çš„å…ƒç´ è‚¯å®šå¤„åœ¨ç›¸åº”è½¬ç½®çŸ©é˜µç›¸åº”è¡Œä¸­çš„æœ€å‰é¢
+			b.smArray[j].row=smArray[i].col; //æŠŠè¯¥å…ƒç´ æŒ‰ç…§æ‰¾åˆ°çš„ä¸‹æ ‡jå­˜å…¥bä¸­
 			b.smArray[j].col=smArray[i].row;
 			b.smArray[j].value=smArray[i].value;
-			rowStart[smArray[i].col]++;  //ÒòÎª¸ÃÖµÒÑ¾­´æÈëb£¬ËùÒÔ×ªÖÃ¾ØÕóµÄ¸ÃĞĞÏÂÒ»¸öÔªËØÔÚbÖĞ¶ÔÓ¦µÄÏÂ±êÎªrowStart[smArray[i].col]++£»
+			rowStart[smArray[i].col]++;  //å› ä¸ºè¯¥å€¼å·²ç»å­˜å…¥bï¼Œæ‰€ä»¥è½¬ç½®çŸ©é˜µçš„è¯¥è¡Œä¸‹ä¸€ä¸ªå…ƒç´ åœ¨bä¸­å¯¹åº”çš„ä¸‹æ ‡ä¸ºrowStart[smArray[i].col]++ï¼›
 		}
 	}
-	delete[] rowSize; //ÊÍ·ÅnewÉêÇëµÄ´æ´¢¿Õ¼ä
+	delete[] rowSize; //é‡Šæ”¾newç”³è¯·çš„å­˜å‚¨ç©ºé—´
 	delete[] rowStart;
 	return b;
 }
-SparseMatrix SparseMatrix::Add(SparseMatrix& b){   //×ªÖÃ¾ØÕóµÄ¼Ó·¨
-	SparseMatrix Result(Rows*Cols);     //½á¹û´æÓÚResultÀïÃæ
-	if(Rows!=b.Rows||Cols!=b.Cols){    //¹æ¸ñÏàÍ¬µÄ¾ØÕó²ÅÄÜÏà¼Ó
+//è½¬ç½®çŸ©é˜µçš„åŠ æ³•
+SparseMatrix SparseMatrix::Add(SparseMatrix& b){   
+	SparseMatrix Result(Rows*Cols);     //ç»“æœå­˜äºResulté‡Œé¢
+	if(Rows!=b.Rows||Cols!=b.Cols){    //è§„æ ¼ç›¸åŒçš„çŸ©é˜µæ‰èƒ½ç›¸åŠ 
 		cout<<"Incompatible matrices"<<endl;
 		return Result;
 	}
@@ -173,15 +157,15 @@ SparseMatrix SparseMatrix::Add(SparseMatrix& b){   //×ªÖÃ¾ØÕóµÄ¼Ó·¨
 	Result.Cols=Cols;
 	Result.Terms=0;
 	Result.maxTerms=Rows*Cols;
-	int i=0,j=0,index_a,index_b; //i£º±éÀúaÈıÔª×é£»index_a:µ±Ç°ËùÖ¸µÄaÖĞÔªËØÔÚ¾ØÕóÖĞµÄÎ»ÖÃ£»
+	int i=0,j=0,index_a,index_b; //iï¼šéå†aä¸‰å…ƒç»„ï¼›index_a:å½“å‰æ‰€æŒ‡çš„aä¸­å…ƒç´ åœ¨çŸ©é˜µä¸­çš„ä½ç½®ï¼›
 	while(i<Terms&&j<b.Terms){
 	index_a=smArray[i].row*Cols+smArray[i].col;
 	index_b=b.smArray[j].row*b.Cols+b.smArray[i].col;
-	if(index_a<index_b){      //µ±Ç°ËùÖ¸µÄa£¬bÖĞÁ½¸öÔªËØ£¬aÖĞÔªËØÎ»ÖÃÔÚÇ°
-		Result.smArray[Result.Terms].row=smArray[i].row;   //Ö±½Ó°ÑaµÄÔªËØ·ÅÔÚResultÀïÃæ
+	if(index_a<index_b){      //å½“å‰æ‰€æŒ‡çš„aï¼Œbä¸­ä¸¤ä¸ªå…ƒç´ ï¼Œaä¸­å…ƒç´ ä½ç½®åœ¨å‰
+		Result.smArray[Result.Terms].row=smArray[i].row;   //ç›´æ¥æŠŠaçš„å…ƒç´ æ”¾åœ¨Resulté‡Œé¢
 		Result.smArray[Result.Terms].col=smArray[i].col;
 		Result.smArray[Result.Terms].value=smArray[i].value;
-		i++; //iÖ¸ÕëÖ¸ÏòaÖĞÏÂÒ»¸öÔªËØ
+		i++; //iæŒ‡é’ˆæŒ‡å‘aä¸­ä¸‹ä¸€ä¸ªå…ƒç´ 
 	}
 	if(index_a>index_b){
 		Result.smArray[Result.Terms].row=b.smArray[j].row;
@@ -189,18 +173,18 @@ SparseMatrix SparseMatrix::Add(SparseMatrix& b){   //×ªÖÃ¾ØÕóµÄ¼Ó·¨
 		Result.smArray[Result.Terms].value=b.smArray[j].value;
 		j++;
 	}
-	if(index_a==index_b){  //Î»ÖÃÏàÍ¬
-		if(smArray[i].value+b.smArray[j].value){   //Èç¹ûÁ½¸öÖµÏà¼ÓµÄºÍ²»ÎªÁã
-					Result.smArray[Result.Terms].row=smArray[j].row;   //°ÑÏà¼ÓµÄ½á¹û·ÅÔÚResultÖĞ
+	if(index_a==index_b){  //ä½ç½®ç›¸åŒ
+		if(smArray[i].value+b.smArray[j].value){   //å¦‚æœä¸¤ä¸ªå€¼ç›¸åŠ çš„å’Œä¸ä¸ºé›¶
+					Result.smArray[Result.Terms].row=smArray[j].row;   //æŠŠç›¸åŠ çš„ç»“æœæ”¾åœ¨Resultä¸­
 		            Result.smArray[Result.Terms].col=smArray[j].col;
 		            Result.smArray[Result.Terms].value=smArray[i].value+b.smArray[j].value;
 					i++;
 					j++;
 		}
 	}
-	Result.Terms++;  //´æÒ»¸öÔªËØ£¬·ÇÁãÔªËØµÄ¸öÊı+1£»
+	Result.Terms++;  //å­˜ä¸€ä¸ªå…ƒç´ ï¼Œéé›¶å…ƒç´ çš„ä¸ªæ•°+1ï¼›
 	}
-	for(;i<Terms;i++){       //bÖĞÔªËØÒÑ¾­±éÀúÍê£¬°ÑaÊ£ÓàµÄÔªËØ·ÅÈëResultÀïÃæ£¬´ËÊ±iËùÖ¸µÄµÚÒ»¸öÔªËØÎ»ÖÃ¿Ï¶¨ÔÚbÖĞ×îºóÒ»¸öÔªËØºóÃæ
+	for(;i<Terms;i++){       //bä¸­å…ƒç´ å·²ç»éå†å®Œï¼ŒæŠŠaå‰©ä½™çš„å…ƒç´ æ”¾å…¥Resulté‡Œé¢ï¼Œæ­¤æ—¶iæ‰€æŒ‡çš„ç¬¬ä¸€ä¸ªå…ƒç´ ä½ç½®è‚¯å®šåœ¨bä¸­æœ€åä¸€ä¸ªå…ƒç´ åé¢
 		Result.smArray[Result.Terms].row=smArray[i].row;
 		Result.smArray[Result.Terms].col=smArray[i].col;
 		Result.smArray[Result.Terms].value=smArray[i].value;
@@ -216,38 +200,39 @@ SparseMatrix SparseMatrix::Add(SparseMatrix& b){   //×ªÖÃ¾ØÕóµÄ¼Ó·¨
 	}
 	return Result;
 }
-SparseMatrix SparseMatrix::Multiply(SparseMatrix& b){  //¾ØÕóµÄ³Ë·¨
-	SparseMatrix Result(Rows*b.Cols);      //´æ·Å¾ØÕóÏà³ËµÄ½á¹û
-	if(Cols!=b.Rows){         //Á½¸ö¾ØÕóÄÜÏà³ËµÄÏÈ¾öÌõ¼ş£ºµÚÒ»¸öµÄÁĞÊıµÈÓÚµÚ¶ş¸öµÄĞĞÊı
+//çŸ©é˜µçš„ä¹˜æ³•
+SparseMatrix SparseMatrix::Multiply(SparseMatrix& b){  
+	SparseMatrix Result(Rows*b.Cols);      //å­˜æ”¾çŸ©é˜µç›¸ä¹˜çš„ç»“æœ
+	if(Cols!=b.Rows){         //ä¸¤ä¸ªçŸ©é˜µèƒ½ç›¸ä¹˜çš„å…ˆå†³æ¡ä»¶ï¼šç¬¬ä¸€ä¸ªçš„åˆ—æ•°ç­‰äºç¬¬äºŒä¸ªçš„è¡Œæ•°
 		cerr<<"Incompatible matrices"<<endl;
 		return Result;
 	}
-	int *rowSize=new int[b.Rows];   //b¾ØÕóÃ¿ĞĞµÄ·ÇÁãÔªËØ¸öÊı
-	int *rowStart=new int[b.Rows+1];    //b¾ØÕóÃ¿ĞĞµÚÒ»¸ö·ÇÁãÔªËØÔÚbÖĞµÄÏÂ±ê£»ÎªºÎ¼ÓÒ»£¿
-	int *temp=new int[b.Cols];  // ÔİÊ±´æ·ÅResultÃ¿Ò»ĞĞÃ¿¸öÔªËØµÄÔËËã½á¹û
-	int i,Current,lastInResult,RowA,ColA,ColB;  //Current£ºaµÄÖ¸Õë£» lastInResult£ºResultµÄÖ¸Õë
-	for(i=0;i<b.Rows;i++)    //¶ÔroeSizeÊı×é¸³Öµ
+	int *rowSize=new int[b.Rows];   //bçŸ©é˜µæ¯è¡Œçš„éé›¶å…ƒç´ ä¸ªæ•°
+	int *rowStart=new int[b.Rows+1];    //bçŸ©é˜µæ¯è¡Œç¬¬ä¸€ä¸ªéé›¶å…ƒç´ åœ¨bä¸­çš„ä¸‹æ ‡ï¼›ä¸ºä½•åŠ ä¸€ï¼Ÿ
+	int *temp=new int[b.Cols];  // æš‚æ—¶å­˜æ”¾Resultæ¯ä¸€è¡Œæ¯ä¸ªå…ƒç´ çš„è¿ç®—ç»“æœ
+	int i,Current,lastInResult,RowA,ColA,ColB;  //Currentï¼šaçš„æŒ‡é’ˆï¼› lastInResultï¼šResultçš„æŒ‡é’ˆ
+	for(i=0;i<b.Rows;i++)    //å¯¹roeSizeæ•°ç»„èµ‹å€¼
 		rowSize[i]=0;
 	for(i=0;i<b.Terms;i++)
 		rowSize[b.smArray[i].row]++;
-	rowStart[0]=0;      //¶ÔrowStartÊı×é¸³Öµ
+	rowStart[0]=0;      //å¯¹rowStartæ•°ç»„èµ‹å€¼
 	for(i=1;i<b.Rows;i++)
 		rowStart[i]=rowStart[i-1]+rowSize[i-1];
-	Current=0;   //´ÓÏÂ±ê0¿ªÊ¼±éÀúa
-	lastInResult=-1; //¸³³õÖµ-1ÊÇÎªÁË¼ÆËã·½±ã£¬¿´Íê´úÂë¼´¿ÉÁË½â
-	while(Current<Terms){  //±éÀúÈıÔª×éaµÄÃ¿Ò»¸öÔªËØ
-	RowA=smArray[Current].row; //È¡µÃµÚÒ»¸öÔªËØµÄËùÔÚĞĞ
-	for(i=0;i<b.Cols;i++) //°ÑtempÊı×é¸³³õÖµÎª0£»
+	Current=0;   //ä»ä¸‹æ ‡0å¼€å§‹éå†a
+	lastInResult=-1; //èµ‹åˆå€¼-1æ˜¯ä¸ºäº†è®¡ç®—æ–¹ä¾¿ï¼Œçœ‹å®Œä»£ç å³å¯äº†è§£
+	while(Current<Terms){  //éå†ä¸‰å…ƒç»„açš„æ¯ä¸€ä¸ªå…ƒç´ 
+	RowA=smArray[Current].row; //å–å¾—ç¬¬ä¸€ä¸ªå…ƒç´ çš„æ‰€åœ¨è¡Œ
+	for(i=0;i<b.Cols;i++) //æŠŠtempæ•°ç»„èµ‹åˆå€¼ä¸º0ï¼›
 		temp[i]=0;
-	while(Current<Terms&&smArray[Current].row==RowA){ //¶Ô¸ÃĞĞµÄËùÓĞÔªËØ½øĞĞ²Ù×÷
-		ColA=smArray[Current].col; //¸ÃÔªËØËùÔÚµÄÁĞColA¾ÍÊÇ¸ÃÔªËØ¶ÔÓ¦Ïà³ËµÄbÖĞÔªËØµÄĞĞÊı
-		for(i=rowStart[ColA];i<rowStart[ColA+1];i++){ //±éÀúbÖĞ¸ÃĞĞµÄËùÓĞÔªËØ
-			ColB=b.smArray[i].col; //aµÄ¸ÃÔªËØÓëbÖĞ¶ÔÓ¦ĞĞµÚColBÁĞµÄÔªËØÏà³ËµÄ½á¹ûÓ¦¸Ã±»·Åµ½temp[ColB]ÖĞ£»
+	while(Current<Terms&&smArray[Current].row==RowA){ //å¯¹è¯¥è¡Œçš„æ‰€æœ‰å…ƒç´ è¿›è¡Œæ“ä½œ
+		ColA=smArray[Current].col; //è¯¥å…ƒç´ æ‰€åœ¨çš„åˆ—ColAå°±æ˜¯è¯¥å…ƒç´ å¯¹åº”ç›¸ä¹˜çš„bä¸­å…ƒç´ çš„è¡Œæ•°
+		for(i=rowStart[ColA];i<rowStart[ColA+1];i++){ //éå†bä¸­è¯¥è¡Œçš„æ‰€æœ‰å…ƒç´ 
+			ColB=b.smArray[i].col; //açš„è¯¥å…ƒç´ ä¸bä¸­å¯¹åº”è¡Œç¬¬ColBåˆ—çš„å…ƒç´ ç›¸ä¹˜çš„ç»“æœåº”è¯¥è¢«æ”¾åˆ°temp[ColB]ä¸­ï¼›
 			temp[ColB]+=smArray[Current].value*b.smArray[i].value;
 		}
-		Current++; //aÖĞ¸ÃÔªËØµÄÒÑ¾­Íê³ÉÊ¹Ãü£¬Ö¸ÏòaÖĞÏÂÒ»¸öÔªËØ
+		Current++; //aä¸­è¯¥å…ƒç´ çš„å·²ç»å®Œæˆä½¿å‘½ï¼ŒæŒ‡å‘aä¸­ä¸‹ä¸€ä¸ªå…ƒç´ 
 	}
-	for(i=0;i<b.Cols;i++){  //°Ñ¸ÃĞĞµÄÔËËã½á¹û´æÈëResultÀïÃæ
+	for(i=0;i<b.Cols;i++){  //æŠŠè¯¥è¡Œçš„è¿ç®—ç»“æœå­˜å…¥Resulté‡Œé¢
 		if(temp[i]!=0){
 		lastInResult++;
 		Result.smArray[lastInResult].row=smArray[Current].row;
@@ -256,32 +241,38 @@ SparseMatrix SparseMatrix::Multiply(SparseMatrix& b){  //¾ØÕóµÄ³Ë·¨
 		}
 	}
 }
-	Result.Rows=Rows;     //¶ÔResultµÄĞÔÖÊ½øĞĞ¸³Öµ²Ù×÷
+	Result.Rows=Rows;     //å¯¹Resultçš„æ€§è´¨è¿›è¡Œèµ‹å€¼æ“ä½œ
 	Result.Cols=b.Cols;
 	Result.Terms=lastInResult+1;
-	delete[] rowSize; //ÊÍ·Ånew´´½¨µÄ´æ´¢¿Õ¼ä
+	delete[] rowSize; //é‡Šæ”¾newåˆ›å»ºçš„å­˜å‚¨ç©ºé—´
 	delete[] rowStart;
 	delete[] temp;
 	return Result;
 }
 
-/*template<typename T, size_t N>
-bool isempty(T(&arr)[N]){
-    return (N == 0);
-}*/
-
-//TO DO:Êı×é´óĞ¡º¯Êı 
-/*
-template <class T>
-double size(T& array){
-	//static double ans[3];
-	//ans[1] = sizeof(array[0]);
-	//ans[2] = sizeof()
-	return (sizeof(array) / sizeof(array[0]));
+//æ•°ç»„å¤§å°å‡½æ•°
+#define size(A) size_pstu(sizeof(A) / sizeof(A[0]), sizeof(A[0]) / sizeof(int), isempty(A))
+int * size_pstu(int row, int col, bool mpt){
+	static int ans[2];
+	if(!mpt){
+		ans[0] = row;
+		ans[1] = col;
+	}
+	else{
+		ans[0] = 0;
+		ans[1] = 0;
+	}
+	return ans;
 }
-*/ 
 
-//TO DO:Êı×éÎ¬¶È
+//æ•°ç»„é•¿åº¦å‡½æ•°
+#define length(A) max(sizeof(A) / sizeof(A[0]), sizeof(A[0]) / sizeof(int))
+
+//æ•°ç»„å…ƒç´ æ€»ä¸ªæ•°å‡½æ•°
+#define numel(A) (sizeof(A) / sizeof(int))
+
+
+//TO DO:æ•°ç»„ç»´åº¦å‡½æ•° 
 /*template<typename T, size_t N>
 unsigned char (& dimension_help_fun(T(&ts)[N]))[N];
 #define DIM(a) (sizeof(dimension_help_fun(a)))
@@ -293,18 +284,32 @@ int main(){
 	cout.precision(4);
 	
 	//double *p;
-	
 	//p = linspace(1, 4, 5);
 	//p = logspace(0, log10(32), 6);
 	
 	//for(int i = 0; i <= 5; i++)
 	//	cout << p[i] << "   ";
 	//cout << endl;
-	//int A[]={};
+	
+	int A[] = {};
+	int *p;
+	p = size(A);
+	cout << p[0] << "   " << p[1] << endl;
+	int B[5] = {1, 2, 3, 4, 5};
+	cout << length(B) << endl;
+	int C[2][5] = {
+		{1, 2, 3, 4, 5},
+		{2, 3, 4, 5, 6},
+	};
+	p = size(C);
+	cout << p[0] << "   " << p[1] << endl;
+	cout << length(C) << endl;
+	cout << numel(C) << endl;
 	//cout << isscalar(A) << endl;
-	SparseMatrix SM;
-	cin >> SM;
-	cout << SM;
+	
+	//SparseMatrix SM;
+	//cin >> SM;
+	//cout << SM;
 	//int A[2][2][2]={{{1,1},{1,1}},{{1,1},{1,1}}};
 	//cout << DIM(A);
 	
