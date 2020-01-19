@@ -14,11 +14,15 @@ bool     isempty(double * nums);
 
 bool     isscalar(double * nums);
 
+bool     isvector(double * A);
+
 int *    size(double * A);
 
 int      length(double * A);
 
 int      numel(double * A);
+
+int      ndims(double * A);
 
 ---FINISHED CLASS---
 ====================
@@ -27,7 +31,8 @@ class SparseMatrix;
 
 ---TO DO OR WIP(PERHAPS GUGUGU FOREVER)---
 =====================================
-
-bool     isvector(double * A);
-
-int      ndims(double * A);
+Nothing:)
+.
+.
+.
+...or EVERYTHING??
