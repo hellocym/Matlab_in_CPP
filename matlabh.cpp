@@ -25,7 +25,8 @@ double * logspace(double start_val, double stop_val, int n){
 #define isempty(nums) ((sizeof(nums) / sizeof(nums[0])) == 0)
 //检测数组是否是标量数组 
 #define isscalar(nums) ((sizeof(nums) / sizeof(nums[0])) == 1)
-/* TODO (CYMIC#1#): 检测数组是否是向量数组 */
+//检测数组是否是向量数组
+#define isvector(nums) (ndims(nums) == 1)
 
 //自定义数据结构：矩阵元素的行，列，值；
 struct Trituple{
@@ -272,46 +273,33 @@ int * size_pstu(int row, int col, bool mpt){
 #define numel(A) (sizeof(A) / sizeof(int))
 
 
-//TO DO:数组维度函数 
-/*template<typename T, size_t N>
-unsigned char (& dimension_help_fun(T(&ts)[N]))[N];
-#define DIM(a) (sizeof(dimension_help_fun(a)))
-*/
+//数组维度函数 
+template<typename T>
+struct dim{
+    enum{value = 0};
+};
+ 
+template<typename T, int N>
+struct dim<T[N]>{
+    enum{value = dim<T>::value + 1};
+};
+ 
+template<typename T, int N>
+unsigned char (& helper(T(&)[N]))[dim<T>::value + 1];
 
+#define ndims(A) sizeof(helper(A))
 
 int main(){
 	cout << setiosflags(ios::fixed);
 	cout.precision(4);
 	
-	//double *p;
-	//p = linspace(1, 4, 5);
-	//p = logspace(0, log10(32), 6);
-	
-	//for(int i = 0; i <= 5; i++)
-	//	cout << p[i] << "   ";
-	//cout << endl;
-	
-	int A[] = {};
-	int *p;
-	p = size(A);
-	cout << p[0] << "   " << p[1] << endl;
-	int B[5] = {1, 2, 3, 4, 5};
-	cout << length(B) << endl;
-	int C[2][5] = {
-		{1, 2, 3, 4, 5},
-		{2, 3, 4, 5, 6},
-	};
-	p = size(C);
-	cout << p[0] << "   " << p[1] << endl;
-	cout << length(C) << endl;
-	cout << numel(C) << endl;
-	//cout << isscalar(A) << endl;
-	
-	//SparseMatrix SM;
-	//cin >> SM;
-	//cout << SM;
-	//int A[2][2][2]={{{1,1},{1,1}},{{1,1},{1,1}}};
-	//cout << DIM(A);
-	
+	int A[2][2] = {{1, 2}, {3, 5}};
+	int c[5] = {1,2,3,4,5};
+	int b = 2;
+	//int *p = &A+1;
+	//p = A;
+	//cout << *p << endl;
+	cout << *(c+1) << endl;
+	//cout << typeid(*(&A+3)).name();
 	
 }
